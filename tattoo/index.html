@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hollow Moon Tattoo — demo</title>
+<meta name="description" content="Tattoo studio website demo with gallery and sketch request form. Made by invisiblekidn.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0a0a;--bg2:#131111;--card:#181515;--line:#2a2424;--bone:#ece4d6;--muted:#a3988a;--red:#b3261e;--red2:#d8443a}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--bone);font-family:'Be Vietnam Pro',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+h1,h2,h3,.brand{font-family:'Playfair Display',serif;line-height:1.15}
+em{font-style:italic;color:var(--red2)}
+.demo-bar{background:var(--red);color:#fff;font-size:13px;text-align:center;padding:6px 12px;font-weight:500}
+header{position:sticky;top:0;z-index:20;background:rgba(11,10,10,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:66px;gap:16px}
+.brand{font-size:22px;font-weight:800;display:flex;align-items:center;gap:10px;letter-spacing:.01em}
+.brand svg{width:28px;height:28px}
+.nav-links{display:flex;gap:26px;font-size:14px;color:var(--muted)}
+.nav-links a:hover{color:var(--bone)}
+.nav-right{display:flex;gap:12px;align-items:center}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.lang button{background:none;border:0;color:var(--muted);font:600 12px 'Be Vietnam Pro';padding:6px 11px;cursor:pointer}
+.lang button.on{background:var(--bone);color:var(--bg)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--red);color:#fff;font:600 15px 'Be Vietnam Pro';border:0;border-radius:999px;padding:13px 24px;cursor:pointer;transition:background .15s,transform .15s}
+.btn:hover{background:var(--red2);transform:translateY(-1px)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--bone)}
+.btn.ghost:hover{border-color:var(--bone)}
+.btn.sm{padding:9px 18px;font-size:14px}
+.hero{padding:80px 0 70px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-120px;top:-120px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(179,38,30,.22),transparent 65%)}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;position:relative;z-index:1}
+.kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.hero h1{font-size:clamp(42px,6.4vw,78px);font-weight:800}
+.hero p{color:var(--muted);font-size:18px;max-width:500px;margin:22px 0 30px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.hero-art{position:relative;justify-self:center;width:min(420px,100%);aspect-ratio:1}
+.hero-art .ring{position:absolute;inset:0;border:1px solid var(--line);border-radius:50%}
+.hero-art .ring.r2{inset:34px;border-style:dashed}
+.hero-art svg{position:absolute;inset:60px;width:calc(100% - 120px);height:calc(100% - 120px)}
+.tag{position:absolute;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:13px}
+.tag b{color:var(--red2)}
+.tag.t1{left:0;top:16%}.tag.t2{right:0;bottom:14%}
+section{padding:84px 0;border-bottom:1px solid var(--line)}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:34px}
+.sec-head h2{font-size:clamp(32px,4.6vw,50px)}
+.sec-head p{color:var(--muted);max-width:430px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.chip{background:none;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:7px 15px;font:500 14px 'Be Vietnam Pro';cursor:pointer}
+.chip.on{background:var(--bone);border-color:var(--bone);color:var(--bg)}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.piece{background:var(--card);border:1px solid var(--line);border-radius:16px;aspect-ratio:1;position:relative;overflow:hidden;display:grid;place-items:center;transition:border-color .2s}
+.piece:hover{border-color:#4a3f3f}
+.piece svg{width:62%;height:62%}
+.piece .cap{position:absolute;left:14px;bottom:12px;right:14px;display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+.piece .cap b{color:var(--bone);font-weight:500}
+.artists{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.artist{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px}
+.artist .ph{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-family:'Playfair Display';font-size:28px;font-weight:800;margin-bottom:14px;color:var(--bg)}
+.artist h3{font-size:24px}
+.artist .st{color:var(--red2);font-size:13px;font-weight:600;margin:2px 0 8px}
+.artist p{color:var(--muted);font-size:14px}
+.process{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:s}
+.step{border-top:2px solid var(--red);padding-top:18px}
+.step:before{counter-increment:s;content:"0" counter(s);font-family:'Playfair Display';font-size:34px;font-weight:800;color:var(--line);display:block;margin-bottom:6px}
+.step h3{font-size:21px;margin-bottom:6px}
+.step p{color:var(--muted);font-size:14px}
+.prices{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.price{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px}
+.price.hl{border-color:var(--red)}
+.price h3{font-size:22px}
+.price .sz{color:var(--muted);font-size:13px;margin:4px 0 16px}
+.price .amt{font-family:'Playfair Display';font-size:32px;font-weight:800}
+.price .amt small{font:400 14px 'Be Vietnam Pro';color:var(--muted)}
+.price ul{list-style:none;margin-top:16px;display:grid;gap:8px;font-size:14px;color:var(--muted)}
+.price li:before{content:"— ";color:var(--red2)}
+.req{display:grid;grid-template-columns:.9fr 1.1fr;gap:30px;align-items:start}
+.req-side h2{font-size:clamp(32px,4.6vw,50px);margin-bottom:14px}
+.req-side p{color:var(--muted);margin-bottom:20px}
+.req-side .pts{display:grid;gap:12px}
+.req-side .pts div{display:flex;gap:12px;font-size:15px}
+.req-side .pts span{color:var(--red2);font-family:'Playfair Display';font-weight:800}
+form{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px;display:grid;gap:16px}
+.f label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+.f input,.f textarea,.f select{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--bone);font:inherit}
+.f textarea{min-height:90px;resize:vertical}
+.f input:focus,.f textarea:focus,.f select:focus{outline:none;border-color:var(--red2)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{background:var(--bg2);border:1px solid var(--line);color:var(--bone);border-radius:10px;padding:9px 14px;font:inherit;font-size:14px;cursor:pointer}
+.seg button.on{border-color:var(--red2);background:rgba(179,38,30,.15)}
+.drop{border:1px dashed #4a3f3f;border-radius:12px;padding:18px;text-align:center;color:var(--muted);font-size:14px}
+.ok{text-align:center;padding:30px 10px}
+.ok .c{width:64px;height:64px;border-radius:50%;background:var(--red);display:grid;place-items:center;margin:0 auto 16px}
+.ok h3{font-size:28px}
+.ok p{color:var(--muted);margin-top:8px}
+.small{font-size:12px;color:var(--muted);text-align:center}
+.faq{display:grid;gap:10px;max-width:820px}
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary:after{content:"+";color:var(--red2);font-size:20px;line-height:1}
+details[open] summary:after{content:"–"}
+details p{color:var(--muted);margin-top:10px;font-size:15px}
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cbox{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;display:grid;gap:14px}
+.cbox span{display:block;color:var(--muted);font-size:13px}
+.bigq{border:1px solid var(--line);border-radius:18px;padding:30px;display:flex;flex-direction:column;justify-content:center;gap:16px;background:radial-gradient(400px 200px at 80% 0,rgba(179,38,30,.18),transparent 70%),var(--bg2)}
+.bigq h3{font-size:30px}
+footer{padding:28px 0;color:var(--muted);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer a{color:var(--red2)}
+@media (max-width:900px){
+ .hero .wrap,.req,.contact{grid-template-columns:1fr}
+ .gallery,.artists,.prices{grid-template-columns:1fr 1fr}
+ .process{grid-template-columns:1fr 1fr}
+ .nav-links{display:none}
+ .hero-art{width:min(320px,100%)}
+}
+@media (max-width:600px){
+ .gallery{grid-template-columns:1fr 1fr;gap:10px}
+ .artists,.prices,.process{grid-template-columns:1fr}
+ .row2{grid-template-columns:1fr}
+ section{padding:60px 0}.hero{padding:54px 0}
+ .nav-right .btn{display:none}
+ form{padding:18px}
+ .piece .cap{font-size:11px}
+}
+</style>
+</head>
+<body>
+<div class="demo-bar" data-i="demo"></div>
+<header><div class="wrap nav">
+  <a class="brand" href="#top"><svg viewBox="0 0 32 32" fill="none" stroke="#ece4d6" stroke-width="2"><path d="M21 5a11 11 0 1 0 6 18A9 9 0 0 1 21 5z"/><path d="M9 26l4-4" stroke="#d8443a"/></svg>Hollow Moon</a>
+  <nav class="nav-links"><a href="#work" data-i="n1"></a><a href="#artists" data-i="n2"></a><a href="#prices" data-i="n3"></a><a href="#request" data-i="n4"></a></nav>
+  <div class="nav-right"><div class="lang"><button data-l="en">EN</button><button data-l="vi">VI</button></div><a class="btn sm" href="#request" data-i="cta"></a></div>
+</div></header>
+
+<div class="hero" id="top"><div class="wrap">
+  <div>
+    <div class="kicker" data-i="kick"></div>
+    <h1 data-i="h1" data-html></h1>
+    <p data-i="lead"></p>
+    <div class="ctas"><a class="btn" href="#request" data-i="cta2"></a><a class="btn ghost" href="#work" data-i="cta3"></a></div>
+  </div>
+  <div class="hero-art">
+    <div class="ring"></div><div class="ring r2"></div>
+    <svg viewBox="0 0 200 200" fill="none" stroke="#ece4d6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M128 30a72 72 0 1 0 42 120A58 58 0 0 1 128 30z"/>
+      <path d="M100 52v96" stroke="#d8443a"/><path d="M88 64l12-14 12 14" stroke="#d8443a"/><path d="M84 132h32M92 148h16" stroke="#d8443a"/>
+      <circle cx="150" cy="58" r="3"/><circle cx="164" cy="86" r="2"/><circle cx="58" cy="164" r="2"/>
+      <path d="M40 60l4 8 8 4-8 4-4 8-4-8-8-4 8-4z"/>
+    </svg>
+    <div class="tag t1"><b>18+</b> <span data-i="tag1"></span></div>
+    <div class="tag t2"><span data-i="tag2"></span></div>
+  </div>
+</div></div>
+
+<section id="work"><div class="wrap">
+  <div class="sec-head"><h2 data-i="workT"></h2><p data-i="workP"></p></div>
+  <div class="filters" id="filters"></div>
+  <div class="gallery" id="gallery"></div>
+</div></section>
+
+<section id="artists"><div class="wrap">
+  <div class="sec-head"><h2 data-i="artT"></h2><p data-i="artP"></p></div>
+  <div class="artists" id="artistList"></div>
+</div></section>
+
+<section id="process"><div class="wrap">
+  <div class="sec-head"><h2 data-i="procT"></h2></div>
+  <div class="process" id="procList"></div>
+</div></section>
+
+<section id="prices"><div class="wrap">
+  <div class="sec-head"><h2 data-i="prT"></h2><p data-i="prP"></p></div>
+  <div class="prices" id="priceList"></div>
+</div></section>
+
+<section id="request"><div class="wrap req">
+  <div class="req-side">
+    <div class="kicker" data-i="reqK"></div>
+    <h2 data-i="reqT"></h2>
+    <p data-i="reqP"></p>
+    <div class="pts"><div><span>01</span><b data-i="p1"></b></div><div><span>02</span><b data-i="p2"></b></div><div><span>03</span><b data-i="p3"></b></div></div>
+  </div>
+  <form id="form" onsubmit="return false"></form>
+</div></section>
+
+<section id="faq"><div class="wrap">
+  <div class="sec-head"><h2>FAQ</h2></div>
+  <div class="faq" id="faqList"></div>
+</div></section>
+
+<section id="contacts"><div class="wrap">
+  <div class="contact">
+    <div class="cbox">
+      <div><span data-i="adL"></span><b data-i="ad"></b></div>
+      <div><span data-i="hrL"></span><b data-i="hr"></b></div>
+      <div><span>Instagram · Telegram · Zalo</span><b>@hollowmoon_demo</b></div>
+    </div>
+    <div class="bigq"><h3 data-i="bigT"></h3><a class="btn" href="#request" data-i="cta2"></a></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap"><span>© Hollow Moon Tattoo — <span data-i="foot"></span></span><span data-i="made" data-html></span></div></footer>
+
+<script>
+const ART={
+rose:'<path d="M100 70c-18 0-30 12-30 28s14 28 30 28 30-12 30-28-12-28-30-28z"/><path d="M100 82c-9 0-15 6-15 14s7 13 15 13 15-6 15-13"/><path d="M100 92c-4 0-6 3-6 6"/><path d="M84 122c-2 16 4 30 16 44M116 122c2 16-4 30-16 44"/><path d="M100 126v48"/><path d="M100 150c-14-6-26-2-32 8 12 4 24 2 32-8zM100 140c12-8 24-6 32 2-10 6-22 6-32-2z"/><path d="M76 92c-10-4-18 0-22 8M124 92c10-4 18 0 22 8"/>',
+dagger:'<path d="M100 26l10 22v86h-20V48z"/><path d="M100 48v86"/><path d="M72 134h56M80 134v8h40v-8"/><path d="M94 142h12v28H94z"/><circle cx="100" cy="178" r="7"/><path d="M60 104c18 6 30 2 40-6 10 8 22 12 40 6" stroke="#d8443a"/><path d="M66 112l-6 14M134 112l6 14" stroke="#d8443a"/>',
+swallow:'<path d="M48 104c22-2 40 6 52 20 10-16 24-30 52-34-14 12-20 24-22 36 12 2 22 10 28 22-18-4-32-2-44 6-8 10-20 16-36 14 8-6 12-14 12-22-18 4-34 0-42-12 12 2 22 0 28-6-12-4-22-12-28-24z"/><circle cx="142" cy="92" r="3"/><path d="M100 124c-6 10-6 22 0 30" stroke="#d8443a"/>',
+snake:'<path d="M60 160c0-20 22-26 40-22s40 0 40-20-24-24-40-18-38 4-38-16 20-30 42-26"/><path d="M104 58c10-2 22 4 22 14s-10 14-20 12" /><circle cx="114" cy="68" r="2.5"/><path d="M126 76l12 4M126 76l10 8" stroke="#d8443a"/><path d="M60 160c-4 8-12 12-20 10"/><path d="M78 140l6 6M96 140l2 8M118 132l4 7M134 112l7 2M100 108l-2-8M80 100l-3-7" stroke-width="1.6"/>',
+moon:'<path d="M118 40a62 62 0 1 0 38 104A50 50 0 0 1 118 40z"/><path d="M88 100c4 4 10 4 14 0M80 84h8M104 80h8" /><path d="M150 48l3 7 7 3-7 3-3 7-3-7-7-3 7-3zM160 96l2 4 4 2-4 2-2 4-2-4-4-2 4-2z" stroke="#d8443a"/>',
+wave:'<path d="M30 140c20 0 30-40 60-40 22 0 26 24 10 30-12 4-16-10-6-12"/><path d="M30 140c30 0 50 10 70 10s30-10 50-10 20 6 20 6"/><path d="M94 100c10-30 40-50 76-44-26 6-40 20-46 40" /><path d="M30 162c30 0 50 8 70 8s34-8 50-8 20 4 20 4" stroke="#d8443a"/><circle cx="140" cy="60" r="12" stroke="#d8443a"/>',
+skull:'<path d="M100 40c-30 0-50 20-50 48 0 16 8 28 20 34v22h60v-22c12-6 20-18 20-34 0-28-20-48-50-48z"/><circle cx="82" cy="92" r="11"/><circle cx="118" cy="92" r="11"/><path d="M100 106l-6 12h12z"/><path d="M84 144v14M100 144v14M116 144v14"/><path d="M60 176c26-10 54-10 80 0" stroke="#d8443a"/>',
+lotus:'<path d="M100 60c-14 18-14 44 0 64 14-20 14-46 0-64z"/><path d="M100 124c-20-4-38-20-42-44 22 2 36 18 42 44zM100 124c20-4 38-20 42-44-22 2-36 18-42 44z"/><path d="M100 124c-26 4-48-4-62-20 22-6 44 2 62 20zM100 124c26 4 48-4 62-20-22-6-44 2-62 20z"/><path d="M50 140h100" stroke="#d8443a"/><path d="M64 152h72M80 164h40" stroke-width="1.6"/>',
+eye:'<path d="M40 100c20-28 40-40 60-40s40 12 60 40c-20 28-40 40-60 40s-40-12-60-40z"/><circle cx="100" cy="100" r="18"/><circle cx="100" cy="100" r="6" fill="#ece4d6"/><path d="M100 40V26M70 48l-8-12M130 48l8-12M100 160v14M70 152l-8 12M130 152l8 12" stroke="#d8443a"/>'
+};
+const PIECES=[['rose','trad'],['dagger','trad'],['lotus','fine'],['snake','black'],['moon','fine'],['swallow','trad'],['skull','black'],['wave','black'],['eye','fine']];
+const T={
+en:{demo:'Concept website · demo project by invisiblekidn — requests here are not sent',
+n1:'Work',n2:'Artists',n3:'Prices',n4:'Get a sketch',cta:'Get a sketch',
+kick:'Tattoo studio · Nha Trang',h1:'Ink that <em>tells</em><br>your story.',
+lead:'Custom fine-line, blackwork and traditional tattoos. Free sketch before every session, sterile single-use equipment.',
+cta2:'Request a free sketch',cta3:'See our work',tag1:'only',tag2:'Single-use needles',
+workT:'Recent work',workP:'Every design is drawn from scratch for one client. Here are a few flash pieces from our artists.',
+f:{all:'All',fine:'Fine line',black:'Blackwork',trad:'Traditional'},
+names:{rose:'Rose',dagger:'Dagger',lotus:'Lotus',snake:'Snake',moon:'Moon',swallow:'Swallow',skull:'Skull',wave:'Wave',eye:'Eye'},
+artT:'Artists',artP:'Three resident artists with different styles — we will match your idea with the right one.',
+arts:[['Linh','Fine line · Ornamental','Delicate botanicals and tiny symbols. 6 years of experience.'],['Marco','Blackwork · Dotwork','Bold geometry and large pieces. Guest spots in Europe.'],['Bảo','Traditional · Color','Classic flash with bright, long-lasting colour.']],
+procT:'How it works',
+proc:[['Request','Send your idea, placement and size — photos of references help.'],['Sketch','The artist draws a free sketch and agrees the price with you.'],['Session','Comfortable private room, sterile tools, music of your choice.'],['Aftercare','Healing kit and a free touch-up within 30 days.']],
+prT:'Prices',prP:'Final price depends on size and detail — you know it before we start.',
+pr:[['Mini','up to 5 cm','800.000₫','Simple line or symbol|Done in one short visit|Healing kit included'],['Medium','5–15 cm','2.000.000₫','Custom sketch|1–3 hours|Free touch-up'],['Large / sleeve','15 cm +','1.200.000₫ / h','Several sessions|Detailed custom design|Payment per session']],
+from:'from',
+reqK:'Free consultation',reqT:'Get your sketch',reqP:'Tell us about your idea — the artist replies in Telegram or Zalo within a day.',
+p1:'Free sketch and price before booking',p2:'Answer within 24 hours',p3:'Deposit only after you love the design',
+fi:{idea:'Your idea',ideaP:'e.g. small lotus with fine lines on the wrist',place:'Placement',size:'Size',style:'Style',ref:'Reference photos',refP:'Drop photos here or tap to choose',name:'Name',contact:'Telegram / Zalo / phone',send:'Send request'},
+places:['Arm','Wrist','Back','Leg','Chest','Other'],sizes:['up to 5 cm','5–15 cm','15 cm +'],styles:['Fine line','Blackwork','Traditional','Not sure'],
+okT:'Request sent!',okP:'This is a demo — in a real project the studio gets the request with photos in Telegram and replies to the client.',again:'Send another',note:'Demo form · no data is sent',
+faq:[['Does it hurt?','A little — most clients describe it as scratching. Small pieces take minutes; we take breaks on long sessions.'],['How do I prepare?','Sleep well, eat before the session, no alcohol 24 hours before. Wear clothes that give easy access to the area.'],['How long does it heal?','The surface heals in 2–3 weeks. Avoid sun and swimming in the sea for the first 2 weeks.'],['Can I get a tattoo under 18?','No. We only tattoo clients 18+ with a valid ID.']],
+adL:'Address',ad:'Demo street 7, Nha Trang',hrL:'Hours',hr:'Tue – Sun 12:00 – 21:00, by appointment',bigT:'Have an idea? Let’s draw it.',
+foot:'demo project',made:'Website by <a href="https://kwork.com/user/invisiblekidn" target="_blank">invisiblekidn</a>'},
+vi:{demo:'Website mẫu · dự án demo của invisiblekidn — yêu cầu ở đây không được gửi đi',
+n1:'Tác phẩm',n2:'Nghệ sĩ',n3:'Bảng giá',n4:'Nhận bản phác',cta:'Nhận bản phác',
+kick:'Tattoo studio · Nha Trang',h1:'Hình xăm <em>kể</em><br>câu chuyện của bạn.',
+lead:'Xăm fine-line, blackwork và truyền thống theo thiết kế riêng. Phác thảo miễn phí trước mỗi buổi xăm, dụng cụ vô trùng dùng một lần.',
+cta2:'Nhận phác thảo miễn phí',cta3:'Xem tác phẩm',tag1:'trở lên',tag2:'Kim dùng một lần',
+workT:'Tác phẩm mới',workP:'Mỗi thiết kế được vẽ riêng cho một khách hàng. Dưới đây là vài mẫu flash của các nghệ sĩ.',
+f:{all:'Tất cả',fine:'Fine line',black:'Blackwork',trad:'Truyền thống'},
+names:{rose:'Hoa hồng',dagger:'Dao găm',lotus:'Hoa sen',snake:'Rắn',moon:'Mặt trăng',swallow:'Chim én',skull:'Đầu lâu',wave:'Sóng',eye:'Con mắt'},
+artT:'Nghệ sĩ',artP:'Ba nghệ sĩ với phong cách khác nhau — chúng tôi chọn người phù hợp nhất với ý tưởng của bạn.',
+arts:[['Linh','Fine line · Hoạ tiết','Hoa lá tinh tế và biểu tượng nhỏ. 6 năm kinh nghiệm.'],['Marco','Blackwork · Dotwork','Hình học mạnh mẽ và hình xăm lớn. Từng làm khách mời tại châu Âu.'],['Bảo','Truyền thống · Màu','Flash cổ điển với màu sắc tươi và bền.']],
+procT:'Quy trình',
+proc:[['Gửi yêu cầu','Gửi ý tưởng, vị trí và kích thước — kèm ảnh tham khảo càng tốt.'],['Phác thảo','Nghệ sĩ vẽ phác thảo miễn phí và báo giá cho bạn.'],['Buổi xăm','Phòng riêng thoải mái, dụng cụ vô trùng, nhạc theo ý bạn.'],['Chăm sóc','Bộ dưỡng sau xăm và dặm lại miễn phí trong 30 ngày.']],
+prT:'Bảng giá',prP:'Giá cuối cùng tuỳ kích thước và độ chi tiết — bạn biết giá trước khi bắt đầu.',
+pr:[['Mini','đến 5 cm','800.000₫','Nét đơn hoặc biểu tượng|Xong trong một lần ghé|Kèm bộ dưỡng'],['Vừa','5–15 cm','2.000.000₫','Phác thảo riêng|1–3 giờ|Dặm lại miễn phí'],['Lớn / cả tay','15 cm +','1.200.000₫ / giờ','Nhiều buổi|Thiết kế chi tiết riêng|Thanh toán theo buổi']],
+from:'từ',
+reqK:'Tư vấn miễn phí',reqT:'Nhận bản phác thảo',reqP:'Kể cho chúng tôi về ý tưởng — nghệ sĩ sẽ trả lời qua Telegram hoặc Zalo trong ngày.',
+p1:'Phác thảo và báo giá miễn phí trước khi đặt lịch',p2:'Trả lời trong 24 giờ',p3:'Chỉ đặt cọc khi bạn ưng thiết kế',
+fi:{idea:'Ý tưởng của bạn',ideaP:'ví dụ: hoa sen nhỏ nét mảnh ở cổ tay',place:'Vị trí',size:'Kích thước',style:'Phong cách',ref:'Ảnh tham khảo',refP:'Kéo ảnh vào đây hoặc chạm để chọn',name:'Tên',contact:'Telegram / Zalo / số điện thoại',send:'Gửi yêu cầu'},
+places:['Tay','Cổ tay','Lưng','Chân','Ngực','Khác'],sizes:['đến 5 cm','5–15 cm','15 cm +'],styles:['Fine line','Blackwork','Truyền thống','Chưa chắc'],
+okT:'Đã gửi yêu cầu!',okP:'Đây là bản demo — trong dự án thật, studio nhận yêu cầu kèm ảnh qua Telegram và trả lời khách.',again:'Gửi yêu cầu khác',note:'Form demo · không gửi dữ liệu',
+faq:[['Xăm có đau không?','Hơi đau — đa số khách thấy giống bị cào nhẹ. Hình nhỏ chỉ vài phút; buổi dài có nghỉ giữa giờ.'],['Cần chuẩn bị gì?','Ngủ đủ, ăn no trước buổi xăm, không uống rượu bia 24 giờ trước. Mặc đồ dễ để lộ vùng xăm.'],['Bao lâu thì lành?','Bề mặt lành sau 2–3 tuần. Tránh nắng và tắm biển trong 2 tuần đầu.'],['Dưới 18 tuổi có xăm được không?','Không. Chúng tôi chỉ xăm cho khách từ 18 tuổi có giấy tờ tuỳ thân.']],
+adL:'Địa chỉ',ad:'7 Đường Demo, Nha Trang',hrL:'Giờ làm việc',hr:'T3 – CN 12:00 – 21:00, theo lịch hẹn',bigT:'Có ý tưởng? Cùng vẽ nhé.',
+foot:'dự án demo',made:'Website bởi <a href="https://kwork.com/user/invisiblekidn" target="_blank">invisiblekidn</a>'}
+};
+const AC=['#e8c9b8','#9fb3c8','#d8443a'];
+let L=new URLSearchParams(location.search).get('lang')==='vi'?'vi':'en';
+let filter='all',sent=false;const fs={place:0,size:0,style:0};
+function svg(k){return `<svg viewBox="0 0 200 200" fill="none" stroke="#ece4d6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${ART[k]}</svg>`}
+function render(){
+  const t=T[L];document.documentElement.lang=L;
+  document.querySelectorAll('[data-i]').forEach(e=>{const v=t[e.dataset.i];if(v==null)return;e.hasAttribute('data-html')?e.innerHTML=v:e.textContent=v});
+  document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===L));
+  document.getElementById('filters').innerHTML=Object.entries(t.f).map(([k,v])=>`<button class="chip ${filter===k?'on':''}" data-f="${k}">${v}</button>`).join('');
+  document.getElementById('gallery').innerHTML=PIECES.filter(p=>filter==='all'||p[1]===filter).map(p=>`<div class="piece">${svg(p[0])}<div class="cap"><b>${t.names[p[0]]}</b><span>${t.f[p[1]]}</span></div></div>`).join('');
+  document.getElementById('artistList').innerHTML=t.arts.map((a,i)=>`<div class="artist"><div class="ph" style="background:${AC[i]}">${a[0][0]}</div><h3>${a[0]}</h3><div class="st">${a[1]}</div><p>${a[2]}</p></div>`).join('');
+  document.getElementById('procList').innerHTML=t.proc.map(p=>`<div class="step"><h3>${p[0]}</h3><p>${p[1]}</p></div>`).join('');
+  document.getElementById('priceList').innerHTML=t.pr.map((p,i)=>`<div class="price ${i===1?'hl':''}"><h3>${p[0]}</h3><div class="sz">${p[1]}</div><div class="amt"><small>${t.from} </small>${p[2]}</div><ul>${p[3].split('|').map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('');
+  document.getElementById('faqList').innerHTML=t.faq.map((f,i)=>`<details ${i===0?'open':''}><summary>${f[0]}</summary><p>${f[1]}</p></details>`).join('');
+  form();
+}
+function seg(name,arr){return `<div class="seg">${arr.map((x,i)=>`<button type="button" class="${fs[name]===i?'on':''}" data-seg="${name}" data-v="${i}">${x}</button>`).join('')}</div>`}
+function form(){
+  const t=T[L],fi=t.fi,f=document.getElementById('form');
+  if(sent){f.innerHTML=`<div class="ok"><div class="c"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></div><h3>${t.okT}</h3><p>${t.okP}</p><br><button type="button" class="btn ghost" data-act="again">${t.again}</button></div>`;return}
+  f.innerHTML=`<div class="f"><label>${fi.idea}</label><textarea placeholder="${fi.ideaP}"></textarea></div>
+  <div class="f"><label>${fi.place}</label>${seg('place',t.places)}</div>
+  <div class="row2"><div class="f"><label>${fi.size}</label>${seg('size',t.sizes)}</div><div class="f"><label>${fi.style}</label>${seg('style',t.styles)}</div></div>
+  <div class="f"><label>${fi.ref}</label><div class="drop">${fi.refP}</div></div>
+  <div class="row2"><div class="f"><label>${fi.name}</label><input placeholder="Linh"></div><div class="f"><label>${fi.contact}</label><input placeholder="@username"></div></div>
+  <button type="button" class="btn" data-act="send">${fi.send}</button><div class="small">${t.note}</div>`;
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.l){L=b.dataset.l;const u=new URL(location);u.searchParams.set('lang',L);history.replaceState(null,'',u);render();return}
+  if(b.dataset.f){filter=b.dataset.f;render();return}
+  if(b.dataset.seg){fs[b.dataset.seg]=+b.dataset.v;document.querySelectorAll(`[data-seg="${b.dataset.seg}"]`).forEach(x=>x.classList.toggle('on',x===b));return}
+  if(b.dataset.act==='send'){sent=true;form()}
+  if(b.dataset.act==='again'){sent=false;form()}
+});
+render();
+</script>
+</body>
+</html>

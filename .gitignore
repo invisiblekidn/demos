@@ -1,0 +1,4 @@
+﻿booking-bot/.env
+booking-bot/*.db
+booking-bot/venv/
+__pycache__/
