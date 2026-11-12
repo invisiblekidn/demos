@@ -40,8 +40,10 @@ TXT = {
     "en": {
         "hello": "💈 <b>Northside Barber Club</b> (demo)\nBook a haircut in a few taps — pick a service, barber and time.",
         "menu_book": "✂️ Book a visit", "menu_my": "📅 My bookings", "menu_prices": "💵 Prices", "menu_lang": "🌐 Language",
-        "choose_service": "Choose a service:", "choose_barber": "Choose a barber:", "any": "Any available",
-        "choose_day": "Choose a day:", "choose_time": "Free time on {day}:", "no_time": "No free time this day — pick another one.",
+        "choose_service": "<b>Step 1 of 4 · Service</b>\nEvery service includes a wash, styling and a cold drink.",
+        "choose_barber": "<b>Step 2 of 4 · Barber</b>\nPick your barber — or “any available” for the earliest slot.", "any": "Any available",
+        "choose_day": "<b>Step 3 of 4 · Day</b>\nWe are open every day from 10:00 to 20:00.",
+        "choose_time": "<b>Step 4 of 4 · Time</b>\nFree time on {day} — busy slots are hidden:", "no_time": "No free time this day — pick another one.",
         "today": "Today", "tomorrow": "Tomorrow",
         "ask_contact": "Almost done! Send your phone number with the button below or type it.",
         "share": "📱 Share my number",
@@ -60,8 +62,10 @@ TXT = {
     "vi": {
         "hello": "💈 <b>Northside Barber Club</b> (demo)\nĐặt lịch cắt tóc chỉ vài chạm — chọn dịch vụ, thợ và giờ.",
         "menu_book": "✂️ Đặt lịch", "menu_my": "📅 Lịch của tôi", "menu_prices": "💵 Bảng giá", "menu_lang": "🌐 Ngôn ngữ",
-        "choose_service": "Chọn dịch vụ:", "choose_barber": "Chọn thợ:", "any": "Bất kỳ thợ nào",
-        "choose_day": "Chọn ngày:", "choose_time": "Giờ trống ngày {day}:", "no_time": "Ngày này đã kín — vui lòng chọn ngày khác.",
+        "choose_service": "<b>Bước 1/4 · Dịch vụ</b>\nMỗi dịch vụ đều gồm gội, tạo kiểu và nước uống mát.",
+        "choose_barber": "<b>Bước 2/4 · Thợ cắt</b>\nChọn thợ quen — hoặc “bất kỳ thợ nào” để có giờ sớm nhất.", "any": "Bất kỳ thợ nào",
+        "choose_day": "<b>Bước 3/4 · Ngày</b>\nTiệm mở cửa hằng ngày từ 10:00 đến 20:00.",
+        "choose_time": "<b>Bước 4/4 · Giờ</b>\nGiờ trống ngày {day} — giờ đã kín được ẩn:", "no_time": "Ngày này đã kín — vui lòng chọn ngày khác.",
         "today": "Hôm nay", "tomorrow": "Ngày mai",
         "ask_contact": "Sắp xong! Gửi số điện thoại bằng nút bên dưới hoặc nhập số.",
         "share": "📱 Gửi số của tôi",
@@ -245,7 +249,8 @@ async def menu_lang(m: Message):
 @router.message(F.text.in_({TXT["en"]["menu_prices"], TXT["vi"]["menu_prices"]}))
 async def menu_prices(m: Message):
     lang = await get_lang(m.from_user.id)
-    lst = "\n".join(f"✂️ {svc_name(i, lang)} — <b>{price(s[2])}</b> · {s[3]} min" for i, s in enumerate(SERVICES))
+    mins = "min" if lang == "en" else "phút"
+    lst = "\n".join(f"✂️ {svc_name(i, lang)} — <b>{price(s[2])}</b> · {s[3]} {mins}" for i, s in enumerate(SERVICES))
     kb = ikb([[(TXT[lang]["menu_book"], "book")]])
     await m.answer(TXT[lang]["prices"].format(list=lst), reply_markup=kb)
 
@@ -321,7 +326,7 @@ async def got_contact(m: Message, state: FSMContext):
     who = BARBERS[d["bar"] - 1] if d["bar"] else TXT[lang]["any"]
     text = TXT[lang]["summary"].format(svc=svc_name(d["svc"], lang), barber=who, when=when_text(d["day"], d["time"], lang),
                                        price=price(SERVICES[d["svc"]][2]), phone=phone)
-    await m.answer("👌", reply_markup=main_kb(lang))
+    await m.answer(f"📱 {phone} ✓", reply_markup=main_kb(lang))
     await m.answer(text, reply_markup=ikb([[(TXT[lang]["confirm"], "confirm"), (TXT[lang]["cancel"], "abort")]]))
 
 
@@ -380,6 +385,7 @@ async def menu_my(m: Message):
     if not rows:
         await m.answer(TXT[lang]["my_none"])
         return
+    await m.answer(TXT[lang]["my_title"])
     for bid, svc, bar, day, t, status in rows:
         await m.answer(f"📅 <b>{when_text(day, t, lang)}</b>\n✂️ {svc_name(svc, lang)} · 💈 {BARBERS[bar - 1]}\n{TXT[lang]['status'][status]}",
                        reply_markup=ikb([[(TXT[lang]["cancel"], f"my:cancel:{bid}")]]))
